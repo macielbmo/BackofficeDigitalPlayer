@@ -1,13 +1,39 @@
 import { Box, Button, Typography } from "@mui/material";
 import { Header } from "../../components/Header";
 import CardCont from "../../components/CardCont";
+import { useEffect, useState } from "react";
+import api from "../../config/axiosConfig";
+import UploadFiles from "../../components/UploadFiles";
 
 export function Content() {
+    const [dataCard, setDataCard] = useState([]);
+    const [updateContent, setUpdateContent] = useState(false);
+
+    useEffect(() => {
+        console.log('Requi')
+        api.get('content').then((res) => {
+            console.log(res);
+            setDataCard(res.data);
+            setUpdateContent(false);
+        }).catch((err) => {
+            console.error(err);
+            setUpdateContent(false);
+        })
+    }, [updateContent])
+
+    const handleUpdateContent = () => {
+        setUpdateContent(true);
+    }
+
+    useEffect(() => {
+        console.log('Data Card: ', dataCard);
+    }, [dataCard]);
+
     return (
         <>
             <Header />
             <Box
-                sx={{ padding: '25px' }}
+                sx={{ padding: '25px', backgroundColor: '#f8f8f8', height: '100vh' }}
             >
                 <Box
                     sx={{
@@ -23,15 +49,28 @@ export function Content() {
                     >
                         Biblioteca de Conteúdo
                     </Typography>
-                    <Button
-                        variant="outlined"
-                        size="small"
-                    >
-                        Enviar Arquivos
-                    </Button>
+                    <UploadFiles
+                        onUpdateContent={handleUpdateContent}
+                    />
                 </Box>
-                <Box>
-                    <CardCont />
+                <Box
+                    sx={{
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        flexWrap: 'wrap',
+                        gap: '20px',
+                        marginTop: '20px',
+                        paddingBottom: '50px',
+
+                    }}
+                >
+                    {dataCard.map(media => (
+                        <CardCont
+                            media={media}
+                            onUpdateContent={handleUpdateContent}
+                        />
+                    ))}
                 </Box>
             </Box >
         </>
