@@ -85,7 +85,7 @@ export default function UploadFiles(props: UploadProps) {
     return (
         <div>
             <TriggerButton type="button" onClick={handleOpen}>
-                Enviar Arquivo
+                Cadastrar Tela
             </TriggerButton>
             <Modal
                 aria-labelledby="unstyled-modal-title"

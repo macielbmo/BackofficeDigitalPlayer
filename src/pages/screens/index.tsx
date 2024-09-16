@@ -1,17 +1,25 @@
 import { Box, Typography } from "@mui/material";
 import { Header } from "../../components/Header";
-import CardCont from "../../components/CardCont";
 import { useEffect, useState } from "react";
 import api from "../../config/axiosConfig";
-import UploadFiles from "../../components/UploadFiles";
+import AddScreens from "../../components/AddScreens";
+import CardScreens from "../../components/CardScreens";
 
-export function Content() {
-    const [dataCard, setDataCard] = useState([]);
+interface ScreensType {
+    id: string;
+    name: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export function Screens() {
+    const [dataCard, setDataCard] = useState<ScreensType[]>([]);
     const [updateContent, setUpdateContent] = useState(false);
 
     useEffect(() => {
         console.log('Requi')
-        api.get('content').then((res) => {
+        api.get('screens').then((res) => {
             console.log(res);
             setDataCard(res.data);
             setUpdateContent(false);
@@ -47,9 +55,9 @@ export function Content() {
                         fontSize='20px'
                         fontWeight='bold'
                     >
-                        Biblioteca de Conteúdo
+                        Telas
                     </Typography>
-                    <UploadFiles
+                    <AddScreens
                         onUpdateContent={handleUpdateContent}
                     />
                 </Box>
@@ -65,9 +73,11 @@ export function Content() {
 
                     }}
                 >
-                    {dataCard.map(media => (
-                        <CardCont
-                            media={media}
+                    {dataCard.map(item => (
+                        <CardScreens
+                            id={item.id}
+                            name={item.name}
+                            description={item.description}
                             onUpdateContent={handleUpdateContent}
                         />
                     ))}

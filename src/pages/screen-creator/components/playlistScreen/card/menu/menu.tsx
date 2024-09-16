@@ -10,7 +10,7 @@ interface MenuProps {
     onDelte: () => void;
 }
 
-export default function LongMenu(props: MenuProps) {
+export default function MenuCardPlaylist(props: MenuProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -56,7 +56,7 @@ export default function LongMenu(props: MenuProps) {
                 }}
             >
                 <MenuItem onClick={handleDelete} >
-                    Excluir
+                    Remover da Playlist
                 </MenuItem>
             </Menu>
         </div>

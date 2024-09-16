@@ -7,10 +7,10 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 const ITEM_HEIGHT = 12;
 
 interface MenuProps {
-    onDelte: () => void;
+    onAddPlaylist: () => void;
 }
 
-export default function LongMenu(props: MenuProps) {
+export default function MenuCardLibary(props: MenuProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -21,8 +21,8 @@ export default function LongMenu(props: MenuProps) {
         setAnchorEl(null);
     };
 
-    const handleDelete = () => {
-        props.onDelte();
+    const handleAddToPlaylist = () => {
+        props.onAddPlaylist();
         handleClose();
     };
 
@@ -55,8 +55,8 @@ export default function LongMenu(props: MenuProps) {
                     },
                 }}
             >
-                <MenuItem onClick={handleDelete} >
-                    Excluir
+                <MenuItem onClick={handleAddToPlaylist} >
+                    Adicionar na Playlist
                 </MenuItem>
             </Menu>
         </div>

@@ -1,17 +1,17 @@
 import { Box, Typography } from "@mui/material";
 import { Header } from "../../components/Header";
-import CardCont from "../../components/CardCont";
 import { useEffect, useState } from "react";
 import api from "../../config/axiosConfig";
-import UploadFiles from "../../components/UploadFiles";
+import AddWebsite from "../../components/AddWebsite";
+import CardWebsiteCont from "../../components/CardWebsiteContent";
 
-export function Content() {
+export function WebSites() {
     const [dataCard, setDataCard] = useState([]);
     const [updateContent, setUpdateContent] = useState(false);
 
     useEffect(() => {
         console.log('Requi')
-        api.get('content').then((res) => {
+        api.get('content-website').then((res) => {
             console.log(res);
             setDataCard(res.data);
             setUpdateContent(false);
@@ -47,9 +47,9 @@ export function Content() {
                         fontSize='20px'
                         fontWeight='bold'
                     >
-                        Biblioteca de Conteúdo
+                        Websites
                     </Typography>
-                    <UploadFiles
+                    <AddWebsite
                         onUpdateContent={handleUpdateContent}
                     />
                 </Box>
@@ -66,7 +66,7 @@ export function Content() {
                     }}
                 >
                     {dataCard.map(media => (
-                        <CardCont
+                        <CardWebsiteCont
                             media={media}
                             onUpdateContent={handleUpdateContent}
                         />

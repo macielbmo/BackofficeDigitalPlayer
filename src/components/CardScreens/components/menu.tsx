@@ -8,6 +8,7 @@ const ITEM_HEIGHT = 12;
 
 interface MenuProps {
     onDelte: () => void;
+    screen_id: string;
 }
 
 export default function LongMenu(props: MenuProps) {
@@ -25,6 +26,11 @@ export default function LongMenu(props: MenuProps) {
         props.onDelte();
         handleClose();
     };
+
+    function handleOpenNewTab() {
+        const url = `/player/${props.screen_id}`;
+        window.open(url, '_blank'); // Abre o link em uma nova aba
+    }
 
     return (
         <div>
@@ -49,12 +55,16 @@ export default function LongMenu(props: MenuProps) {
                 slotProps={{
                     paper: {
                         style: {
-                            maxHeight: ITEM_HEIGHT * 4.5,
+                            // maxHeight: ITEM_HEIGHT * 4.5,
                             width: '20ch',
+                            height: ITEM_HEIGHT * 9
                         },
                     },
                 }}
             >
+                <MenuItem onClick={handleOpenNewTab}>
+                    Player
+                </MenuItem>
                 <MenuItem onClick={handleDelete} >
                     Excluir
                 </MenuItem>
