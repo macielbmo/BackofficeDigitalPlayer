@@ -25,10 +25,11 @@ export function CardLibaryContent({
 }: CardLibaryType) {
 
     const handlAddToPlaylist = () => {
+        console.log("DURATION:", duration);
         api.post('playlist', {
             content_id,
             screen_id,
-            duration,
+            duration: Math.round(duration),
             type_content: type
         })
             .then(() => {

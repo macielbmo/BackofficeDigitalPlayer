@@ -58,7 +58,7 @@ export function LibaryContent(props: PropsType) {
                         content_id={item.id}
                         name={item.name}
                         type={item.type}
-                        duration={item.duration}
+                        duration={item.durantion}
                         filename={item.filename}
                         cardContent={false}
                         screen_id={id}

@@ -1,7 +1,7 @@
 export interface ContentType {
     created_at: string;
     description: string | null;
-    duration: number;
+    durantion: number;
     expiry_date: string | null;
     filename: string;
     id: string;
