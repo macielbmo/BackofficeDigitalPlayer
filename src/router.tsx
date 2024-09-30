@@ -5,6 +5,7 @@ import { WebSites } from "./pages/websites";
 import { Screens } from "./pages/screens";
 import { ScreenCreator } from "./pages/screen-creator";
 import { Player } from "./pages/player";
+import { ContentDetails } from "./pages/contentDetails";
 
 const router = createBrowserRouter([
     {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <Content />
+    },
+    {
+        path: "/content/:id",
+        element: <ContentDetails />
     },
     {
         path: "/websites",

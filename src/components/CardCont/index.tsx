@@ -8,6 +8,7 @@ import { MediaTypes } from './media.type';
 import { Box } from '@mui/material';
 import LongMenu from './components/menu';
 import api from '../../config/axiosConfig';
+import { Link } from 'react-router-dom';
 
 interface CardProps {
     media: MediaTypes;
@@ -67,57 +68,59 @@ export default function CardCont({ media, onUpdateContent }: CardProps) {
 
     return (
         <Card sx={{ maxWidth: 300, width: "100%" }}>
-            <CardActionArea>
-                {media.type === 'video/mp4' ? (
-                    <>
-                        <video ref={videoRef} src={`http://localhost:3000/temp/${media.filename}`} style={{ display: 'none' }} />
-                        <canvas ref={canvasRef} style={{ display: 'none' }} />
+            <Link to={`/content/${media.id}`}>
+                <CardActionArea>
+                    {media.type === 'video/mp4' ? (
+                        <>
+                            <video ref={videoRef} src={`http://localhost:3000/temp/${media.filename}`} style={{ display: 'none' }} />
+                            <canvas ref={canvasRef} style={{ display: 'none' }} />
+                            <CardMedia
+                                component="img"
+                                height="140"
+                                image={hasError ? 'default-thumbnail.jpg' : thumbnail || 'default-thumbnail.jpg'}
+                                alt={media.name || 'Video Thumbnail'}
+                            />
+                        </>
+                    ) : (
                         <CardMedia
                             component="img"
                             height="140"
-                            image={hasError ? 'default-thumbnail.jpg' : thumbnail || 'default-thumbnail.jpg'}
-                            alt={media.name || 'Video Thumbnail'}
+                            image={`http://localhost:3000/temp/${media.filename}`}
+                            alt={media.name || 'Image'}
                         />
-                    </>
-                ) : (
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image={`http://localhost:3000/temp/${media.filename}`}
-                        alt={media.name || 'Image'}
-                    />
-                )}
-                <CardContent
-                    sx={{
-                        display: 'flex',
-
-                    }}
-                >
-                    <Box
+                    )}
+                    <CardContent
                         sx={{
-                            width: '90%',
+                            display: 'flex',
+
                         }}
                     >
-                        <Typography gutterBottom component="div"
+                        <Box
                             sx={{
-                                whiteSpace: 'nowrap',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
+                                width: '90%',
                             }}
                         >
-                            {media.name || 'Default Title'}
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                            {media.type === 'video/mp4' ? 'Video' : 'Image'}
-                        </Typography>
-                    </Box>
-                    <Box>
-                        <LongMenu
-                            onDelte={handleDeleteContent}
-                        />
-                    </Box>
-                </CardContent>
-            </CardActionArea>
+                            <Typography gutterBottom component="div"
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                }}
+                            >
+                                {media.name || 'Default Title'}
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                {media.type === 'video/mp4' ? 'Video' : 'Image'}
+                            </Typography>
+                        </Box>
+                        <Box>
+                            <LongMenu
+                                onDelte={handleDeleteContent}
+                            />
+                        </Box>
+                    </CardContent>
+                </CardActionArea>
+            </Link>
         </Card>
     );
 }
