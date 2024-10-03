@@ -3,7 +3,7 @@ import { Header } from "../../components/Header";
 import { useEffect, useState } from "react";
 import api from "../../config/axiosConfig";
 import { useNavigate, useParams } from "react-router-dom";
-import { ContentType } from "../screen-creator/types";
+import { ContentScreenType, ContentType } from "../screen-creator/types";
 import OptionsMidia from "./options";
 import { format, parseISO } from "date-fns";
 
@@ -80,6 +80,24 @@ export function ContentDetails() {
         console.log('Data Card: ', dataCard);
     }, [dataCard]);
 
+    const renderContent = () => {
+        switch (dataCard.type) {
+            case 'image/jpeg':
+                console.log('IMG', dataCard.name);
+                return <img src={videoUrl} alt="Imagem de exibição" style={{ width: "100%", height: "100%" }} />;
+            case 'video/mp4':
+                console.log('VIDEO', dataCard.name);
+                return <video
+                    src={videoUrl}
+                    playsInline
+                    controls
+                    style={{ width: "100%", height: "100%" }}
+                />
+            default:
+                return null;
+        }
+    };
+
     return (
         <>
             <Header />
@@ -124,12 +142,7 @@ export function ContentDetails() {
                                 backgroundColor: '#e0e0e0',
                             }}
                         >
-                            <video
-                                src={videoUrl}
-                                playsInline
-                                controls
-                                style={{ width: "100%", height: "100%" }}
-                            />
+                            {renderContent()}
                         </Box>
                     </Box>
 
@@ -233,7 +246,7 @@ export function ContentDetails() {
                                     cursor: 'pointer',
                                 }
                             }}
-                            onClick={disable ? null : handleUpdate}
+                            onClick={disable ? () => { } : handleUpdate}
                         >Salvar Alterações</Button>
                     </Box>
                 </Box>
