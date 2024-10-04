@@ -85,7 +85,7 @@ export default function UploadFiles(props: UploadProps) {
     return (
         <div>
             <TriggerButton type="button" onClick={handleOpen}>
-                Cadastrar Tela
+                Enviar Arquivo
             </TriggerButton>
             <Modal
                 aria-labelledby="unstyled-modal-title"
@@ -134,6 +134,7 @@ export default function UploadFiles(props: UploadProps) {
                                 ref={fileInputRef}
                                 style={{ display: 'none' }}
                                 onChange={handleFileChange}
+                                accept=".mp4, .avi, .jpeg, .png, image/png, image/jpeg, video/mp4, video/x-msvideo"
                             />
                             <Typography
                                 sx={{
@@ -141,7 +142,7 @@ export default function UploadFiles(props: UploadProps) {
                                     fontSize: '14px',
                                 }}
                             >
-                                Selecione os arquivos que deseja enviar. O limite é de 5MB por arquivo.
+                                Selecione os arquivos que deseja enviar. Formatos permetidos: mp4, avi, jpeg e png.
                             </Typography>
                         </Box>
                     ) : (

@@ -83,15 +83,22 @@ export function ContentDetails() {
     const renderContent = () => {
         switch (dataCard.type) {
             case 'image/jpeg':
-                console.log('IMG', dataCard.name);
-                return <img src={videoUrl} alt="Imagem de exibição" style={{ width: "100%", height: "100%" }} />;
+                return <img src={videoUrl} alt="Imagem de exibição" style={{ width: "100%", height: "100%", objectFit: "contain" }} />;
+            case 'image/png':
+                return <img src={videoUrl} alt="Imagem de exibição" style={{ width: "100%", height: "100%", objectFit: "contain" }} />;
             case 'video/mp4':
-                console.log('VIDEO', dataCard.name);
                 return <video
                     src={videoUrl}
                     playsInline
                     controls
-                    style={{ width: "100%", height: "100%" }}
+                    style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                />
+            case 'video/avi':
+                return <video
+                    src={videoUrl}
+                    playsInline
+                    controls
+                    style={{ width: "100%", height: "100%", objectFit: "contain" }}
                 />
             default:
                 return null;
@@ -113,6 +120,7 @@ export function ContentDetails() {
                     <Box
                         sx={{
                             maxWidth: '58%',
+                            width: '100%',
                         }}
                     >
                         <Box
@@ -135,15 +143,29 @@ export function ContentDetails() {
 
                         <Box
                             sx={{
-                                width: 'inherit',
-                                height: '65vh',
-                                padding: '20px',
-                                marginTop: '15px',
+                                position: 'relative',
+                                width: '100%', // Largura total do container pai
+                                paddingTop: '56.25%', // Proporção 16:9 (9 / 16 * 100 = 56.25%)
                                 backgroundColor: '#e0e0e0',
+                                marginTop: '15px',
+                                overflow: 'hidden',
                             }}
                         >
-                            {renderContent()}
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    padding: '20px',
+                                    backgroundColor: '#e0e0e0',
+                                }}
+                            >
+                                {renderContent()}
+                            </Box>
                         </Box>
+
                     </Box>
 
                     <Box

@@ -79,6 +79,10 @@ export default function CardCont({ media, onUpdateContent }: CardProps) {
                                 height="140"
                                 image={hasError ? 'default-thumbnail.jpg' : thumbnail || 'default-thumbnail.jpg'}
                                 alt={media.name || 'Video Thumbnail'}
+                                sx={{
+                                    height: '140px',
+                                    objectFit: 'cover'
+                                }}
                             />
                         </>
                     ) : (
@@ -87,6 +91,10 @@ export default function CardCont({ media, onUpdateContent }: CardProps) {
                             height="140"
                             image={`http://localhost:3000/temp/${media.filename}`}
                             alt={media.name || 'Image'}
+                            sx={{
+                                height: '140px',
+                                objectFit: 'cover'
+                            }}
                         />
                     )}
                 </Link>

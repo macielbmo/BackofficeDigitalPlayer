@@ -20,6 +20,7 @@ export interface ContentScreenType {
     duration: number;
     screen_id: string;
     type_content: string;
+    order: number;
 }
 
 export interface WebsiteType {

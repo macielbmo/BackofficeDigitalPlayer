@@ -14,6 +14,8 @@ interface CardPlaylistType {
     filename: string,
     cardContent?: boolean,
     onSetDuration: (id: string, newDuration: number) => void,
+    onMoveUp: () => void;
+    onMoveDown: () => void;
 }
 
 export function Card({
@@ -25,7 +27,9 @@ export function Card({
     filename,
     cardContent,
     screen_id,
-    onSetDuration
+    onSetDuration,
+    onMoveUp,
+    onMoveDown
 }: CardPlaylistType) {
 
     const handleRemoveContent = () => {
@@ -129,6 +133,8 @@ export function Card({
                     )}
                     <MenuCardPlaylist
                         onDelte={handleRemoveContent}
+                        onMoveDown={onMoveDown}
+                        onMoveUp={onMoveUp}
                     />
                 </Box>
             </Box>

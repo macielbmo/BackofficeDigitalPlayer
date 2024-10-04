@@ -1,6 +1,7 @@
-import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, IconButton } from "@mui/material";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import api from "../../config/axiosConfig";
 import { ContentScreenType } from "../screen-creator/types";
 
@@ -10,65 +11,82 @@ export function Player() {
     const [contentList, setContentList] = useState<ContentScreenType[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentContent, setCurrentContent] = useState<ContentScreenType | null>(null);
+    const [isFading, setIsFading] = useState(false);
+    const playerRef = useRef<HTMLDivElement>(null);
 
-    // Fetch da playlist quando o componente é montado
     useEffect(() => {
+        GetData();
+    }, [id]);
+
+    const GetData = () => {
         api.get(`playlist/${id}`)
             .then((response) => {
                 console.log(response.data);
                 setContentList(response.data);
                 if (response.data.length > 0) {
-                    setCurrentContent(response.data[0]); // Inicia com o primeiro conteúdo
+                    setCurrentContent(response.data[0]);
                 }
             })
             .catch((error) => {
                 console.error('Error fetching playlist:', error);
                 setContentList([]);
             });
-    }, [id]);
+    }
 
-    // Função que gerencia a troca de conteúdo
     useEffect(() => {
         if (currentContent) {
-            // Define a duração padrão de 10 segundos caso não exista
             const duration = currentContent.duration !== null ? currentContent.duration * 1000 : 10 * 1000;
 
-            // Inicia o temporizador para trocar o conteúdo
             const timer = setTimeout(() => {
-                // Define o próximo conteúdo a ser exibido
-                const nextIndex = currentIndex < contentList.length - 1 ? currentIndex + 1 : 0;
-                setCurrentIndex(nextIndex);
-                setCurrentContent(contentList[nextIndex]);
+                setIsFading(true);
+
+                setTimeout(() => {
+                    const nextIndex = currentIndex < contentList.length - 1 ? currentIndex + 1 : 0;
+                    setCurrentIndex(nextIndex);
+                    setCurrentContent(contentList[nextIndex]);
+                    setIsFading(false);
+                }, 500);
             }, duration);
 
-            // Limpa o temporizador quando o conteúdo é atualizado ou quando o componente desmonta
             return () => clearTimeout(timer);
         }
     }, [currentContent, currentIndex, contentList]);
 
-    // Renderização do conteúdo com base no tipo
+    // Função para alternar o modo de tela cheia
+    const handleFullscreen = () => {
+        if (!document.fullscreenElement && playerRef.current) {
+            playerRef.current.requestFullscreen();
+        } else if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    };
+
     const renderContent = (content: ContentScreenType | null) => {
         if (!content) return null;
 
         switch (content.type_content) {
             case 'image/jpeg':
-                console.log('IMG', content.content.filename);
                 return <img src={`http://localhost:3000/temp/${content.content.filename}`} alt="Imagem de exibição" style={{ width: "100%", height: "100%" }} />;
             case 'video/mp4':
-                console.log('VIDEO', content.content.filename);
                 return <video
                     src={`http://localhost:3000/temp/${content.content.filename}`}
                     autoPlay
                     muted
                     playsInline
-                    controls
+                    // controls
                     style={{ width: "100%", height: "100%" }}
                 />;
             case 'URL':
-                console.log('URL', content.content_website.url);
-                return <iframe src={content.content_website.url} style={{ width: "100%", height: "100%" }} title="Exibição de URL" />;
+                return <iframe
+                    src={content.content_website.url}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        overflow: "hidden",
+                        border: "none",
+                        pointerEvents: "none"
+                    }} title="Exibição de URL" />;
             case 'HTML':
-                console.log('HTML', content.content_website.html);
                 return (
                     <div
                         dangerouslySetInnerHTML={{ __html: content.content_website.html ? content.content_website.html : '' }}
@@ -81,7 +99,34 @@ export function Player() {
     };
 
     return (
-        <Box sx={{ width: '100%', height: '100vh', backgroundColor: 'black' }}>
+        <Box
+            ref={playerRef}
+            sx={{
+                width: '100%',
+                height: '100vh',
+                backgroundColor: 'black',
+                position: 'relative', // Para posicionar o botão
+                opacity: isFading ? 0 : 1,
+                transition: 'opacity 0.5s ease',
+                overflow: 'hidden',
+            }}
+        >
+            {/* Botão de tela cheia */}
+            <IconButton
+                onClick={handleFullscreen}
+                sx={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    color: 'white',
+                    zIndex: 1000,
+                    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)',
+                    overflow: 'hidden',
+                }}
+            >
+                <FullscreenIcon />
+            </IconButton>
+
             {renderContent(currentContent)}
         </Box>
     );

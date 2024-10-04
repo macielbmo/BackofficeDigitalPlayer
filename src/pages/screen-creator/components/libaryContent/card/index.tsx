@@ -3,6 +3,7 @@ import { Box, TextField, Typography } from "@mui/material";
 import TvIcon from '@mui/icons-material/Tv';
 import MenuCardLibary from "./menu/menu";
 import api from "../../../../../config/axiosConfig";
+import { useCreatorContext } from "../../..";
 
 interface CardLibaryType {
     name: string,
@@ -23,6 +24,7 @@ export function CardLibaryContent({
     cardContent,
     screen_id,
 }: CardLibaryType) {
+    const { sizePlaylist } = useCreatorContext();
 
     const handlAddToPlaylist = () => {
         console.log("DURATION:", duration);
@@ -30,7 +32,8 @@ export function CardLibaryContent({
             content_id,
             screen_id,
             duration: Math.round(duration),
-            type_content: type
+            type_content: type,
+            order: sizePlaylist + 1
         })
             .then(() => {
                 console.log('Playlist')

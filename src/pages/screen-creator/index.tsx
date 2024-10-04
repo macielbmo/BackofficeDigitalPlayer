@@ -1,13 +1,31 @@
 import { Box, Typography } from "@mui/material";
 import { Header } from "../../components/Header";
-import { useState } from "react";
+import { createContext, useState, useContext } from "react";
 import { PlaylistScreen } from "./components/playlistScreen";
 import { useParams } from "react-router-dom";
 import { ContentScreenType } from "./types";
 import { LibaryContent } from "./components/libaryContent";
 import { LibaryContentWebsite } from "./components/libaryContentWebsite";
 
-const optionContent = ["content", "website"]
+const optionContent = ["content", "website"];
+
+// Definindo o tipo do contexto
+interface CreatorContextProps {
+    sizePlaylist: number;
+    setSizePlaylist: (size: number) => void;
+    dataContentScreen: ContentScreenType[];
+    setDataContentScreen: (data: ContentScreenType[]) => void;
+}
+
+const CreatorContext = createContext<CreatorContextProps | undefined>(undefined);
+
+export const useCreatorContext = () => {
+    const context = useContext(CreatorContext);
+    if (context === undefined) {
+        throw new Error('useCreatorContext deve ser usado dentro de um CreatorProvider');
+    }
+    return context;
+};
 
 export function ScreenCreator() {
     const { id } = useParams();
@@ -15,16 +33,12 @@ export function ScreenCreator() {
     const [dataContentScreen, setDataContentScreen] = useState<ContentScreenType[]>([]);
     const [dataContent, setDataContent] = useState([]);
     const [dataWebsite, setDataWebsite] = useState([]);
-
     const [optionCont, setOptionCont] = useState("content");
+    const [sizePlaylist, setSizePlaylist] = useState(0)
 
     const handleContent = (option: string) => {
-        setOptionCont(option)
-    }
-
-    const handleDataScreen = (data: any) => {
-        setDataContentScreen(data)
-    }
+        setOptionCont(option);
+    };
 
     const handleChangeUpdateDuration = (id: string, newDuration: number) => {
         setDataContentScreen(prevDurations =>
@@ -36,16 +50,8 @@ export function ScreenCreator() {
         );
     };
 
-    const handleDataContent = (data: any) => {
-        setDataContent(data)
-    }
-
-    const handleDataWebsite = (data: any) => {
-        setDataWebsite(data)
-    }
-
     return (
-        <>
+        <CreatorContext.Provider value={{ sizePlaylist, setSizePlaylist, dataContentScreen, setDataContentScreen }}>
             <Header />
 
             <Box sx={{ padding: '25px', backgroundColor: '#f8f8f8', height: '100vh' }}>
@@ -72,7 +78,7 @@ export function ScreenCreator() {
                 }}>
                     <PlaylistScreen
                         id={id}
-                        onSetDataScreen={handleDataScreen}
+                        onSetDataScreen={setDataContentScreen}
                         dataContentScreen={dataContentScreen}
                         onChangeUpdateDuration={handleChangeUpdateDuration}
                     />
@@ -86,6 +92,7 @@ export function ScreenCreator() {
                         >
                             {optionContent.map((item) => (
                                 <Box
+                                    key={item} // Adicione uma chave única
                                     sx={{
                                         borderBottom: `2px solid ${item === optionCont ? blue[500] : '#fff'}`,
                                         padding: '0 15px'
@@ -107,24 +114,24 @@ export function ScreenCreator() {
                             ))}
                         </Box>
 
-                        {optionCont === 'content' ? <>
+                        {optionCont === 'content' ? (
                             <LibaryContent
                                 id={id}
-                                onSetDataContent={handleDataContent}
+                                onSetDataContent={setDataContent}
                                 dataContent={dataContent}
                             />
-                        </> : (
+                        ) : (
                             <LibaryContentWebsite
                                 id={id}
-                                onSetDataScreen={handleDataWebsite}
+                                onSetDataScreen={setDataWebsite}
                                 dataContentWebsite={dataWebsite}
                             />
                         )}
                     </Box>
                 </Box>
             </Box>
-        </>
-    )
+        </CreatorContext.Provider>
+    );
 }
 
 const blue = {

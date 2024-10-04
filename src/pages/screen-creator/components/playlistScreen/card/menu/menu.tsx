@@ -8,6 +8,8 @@ const ITEM_HEIGHT = 12;
 
 interface MenuProps {
     onDelte: () => void;
+    onMoveUp: () => void;
+    onMoveDown: () => void;
 }
 
 export default function MenuCardPlaylist(props: MenuProps) {
@@ -23,6 +25,16 @@ export default function MenuCardPlaylist(props: MenuProps) {
 
     const handleDelete = () => {
         props.onDelte();
+        handleClose();
+    };
+
+    const handleMoveUp = () => {
+        props.onMoveUp();
+        handleClose();
+    };
+
+    const handleMoveDown = () => {
+        props.onMoveDown();
         handleClose();
     };
 
@@ -49,14 +61,20 @@ export default function MenuCardPlaylist(props: MenuProps) {
                 slotProps={{
                     paper: {
                         style: {
-                            maxHeight: ITEM_HEIGHT * 4.5,
-                            width: '20ch',
+                            width: '25ch',
+                            height: ITEM_HEIGHT * 11
                         },
                     },
                 }}
             >
                 <MenuItem onClick={handleDelete} >
                     Remover da Playlist
+                </MenuItem>
+                <MenuItem onClick={handleMoveUp} >
+                    Mover ↑
+                </MenuItem>
+                <MenuItem onClick={handleMoveDown} >
+                    Mover ↓
                 </MenuItem>
             </Menu>
         </div>
