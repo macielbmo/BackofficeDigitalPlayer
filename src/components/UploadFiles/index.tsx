@@ -51,7 +51,7 @@ export default function UploadFiles(props: UploadProps) {
             formData.append('file', selectedFile);
 
             try {
-                const response = await axios.post('http://localhost:3000/content/file', formData, {
+                const response = await axios.post(`http://localhost:3000/content/file`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     },

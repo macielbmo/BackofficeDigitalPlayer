@@ -3,7 +3,7 @@ import { Header } from "../../components/Header";
 import { useEffect, useState } from "react";
 import api from "../../config/axiosConfig";
 import { useNavigate, useParams } from "react-router-dom";
-import { ContentScreenType, ContentType } from "../screen-creator/types";
+import { ContentType } from "../screen-creator/types";
 import OptionsMidia from "./options";
 import { format, parseISO } from "date-fns";
 

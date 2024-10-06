@@ -10,6 +10,8 @@ import LongMenu from './components/menu';
 import api from '../../config/axiosConfig';
 import { Link } from 'react-router-dom';
 
+import defaultImg from '../../assets/img/video.jpeg'
+
 interface CardProps {
     media: MediaTypes;
     onUpdateContent: () => void;
@@ -27,6 +29,8 @@ export default function CardCont({ media, onUpdateContent }: CardProps) {
             const canvas = canvasRef.current;
             const ctx = canvas.getContext('2d');
 
+            console.log('[VIDEO REF]', videoRef);
+
             video.crossOrigin = 'anonymous'; // Enable CORS for the video
             video.onloadedmetadata = () => {
                 canvas.width = video.videoWidth;
@@ -39,6 +43,7 @@ export default function CardCont({ media, onUpdateContent }: CardProps) {
                     try {
                         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                         const dataUrl = canvas.toDataURL('image/jpeg');
+                        console.log("[THUBNAILS]", dataUrl);
                         setThumbnail(dataUrl);
                         setHasError(false);
                     } catch (error) {
@@ -77,7 +82,7 @@ export default function CardCont({ media, onUpdateContent }: CardProps) {
                             <CardMedia
                                 component="img"
                                 height="140"
-                                image={hasError ? 'default-thumbnail.jpg' : thumbnail || 'default-thumbnail.jpg'}
+                                image={hasError ? defaultImg : thumbnail || defaultImg}
                                 alt={media.name || 'Video Thumbnail'}
                                 sx={{
                                     height: '140px',

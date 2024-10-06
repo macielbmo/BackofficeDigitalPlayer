@@ -10,7 +10,6 @@ import { ContentDetails } from "./pages/contentDetails";
 const router = createBrowserRouter([
     {
         path: "/login",
-
         element: <Login />
     },
     {

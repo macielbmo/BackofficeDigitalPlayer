@@ -19,7 +19,7 @@ export function Player() {
     }, [id]);
 
     const GetData = () => {
-        api.get(`playlist/${id}`)
+        api.get(`playlist/player/${id}`)
             .then((response) => {
                 console.log(response.data);
                 setContentList(response.data);
@@ -52,6 +52,13 @@ export function Player() {
         }
     }, [currentContent, currentIndex, contentList]);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            GetData();
+        }, 600000);
+        return () => clearTimeout(timer);
+    }, []);
+
     // Função para alternar o modo de tela cheia
     const handleFullscreen = () => {
         if (!document.fullscreenElement && playerRef.current) {
@@ -67,7 +74,18 @@ export function Player() {
         switch (content.type_content) {
             case 'image/jpeg':
                 return <img src={`http://localhost:3000/temp/${content.content.filename}`} alt="Imagem de exibição" style={{ width: "100%", height: "100%" }} />;
+            case 'image/png':
+                return <img src={`http://localhost:3000/temp/${content.content.filename}`} alt="Imagem de exibição" style={{ width: "100%", height: "100%" }} />;
             case 'video/mp4':
+                return <video
+                    src={`http://localhost:3000/temp/${content.content.filename}`}
+                    autoPlay
+                    muted
+                    playsInline
+                    // controls
+                    style={{ width: "100%", height: "100%" }}
+                />;
+            case 'video/avi':
                 return <video
                     src={`http://localhost:3000/temp/${content.content.filename}`}
                     autoPlay

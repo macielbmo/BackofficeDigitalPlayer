@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import TvIcon from '@mui/icons-material/Tv';
 import api from "../../../../../config/axiosConfig";
 import MenuCardWebsiteLibary from "./MenuCardWebsiteLibary/menu";
+import { useCreatorContext } from "../../..";
 
 interface CardLibaryType {
     website_id: string;
@@ -19,6 +20,7 @@ export function CardLibaryWebsite({
     url,
     screen_id,
 }: CardLibaryType) {
+    const { sizePlaylist } = useCreatorContext();
 
     const handlAddToPlaylist = () => {
         api.post('playlist', {
@@ -26,6 +28,7 @@ export function CardLibaryWebsite({
             screen_id,
             duration: 15,
             type_content: url !== null ? 'URL' : 'HTML',
+            order: sizePlaylist + 1
         })
             .then(() => {
                 console.log('Playlist')
