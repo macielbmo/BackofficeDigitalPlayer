@@ -33,7 +33,7 @@ export function WebSites() {
         <>
             <Header />
             <Box
-                sx={{ padding: '25px', backgroundColor: '#f8f8f8', height: '100vh' }}
+                sx={{ padding: '25px', backgroundColor: '#EDF3F4', height: '100vh' }}
             >
                 <Box
                     sx={{
@@ -57,7 +57,6 @@ export function WebSites() {
                     sx={{
                         width: '100%',
                         display: 'flex',
-                        justifyContent: 'center',
                         flexWrap: 'wrap',
                         gap: '20px',
                         marginTop: '20px',

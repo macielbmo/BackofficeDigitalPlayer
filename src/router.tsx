@@ -6,6 +6,7 @@ import { Screens } from "./pages/screens";
 import { ScreenCreator } from "./pages/screen-creator";
 import { Player } from "./pages/player";
 import { ContentDetails } from "./pages/contentDetails";
+import ProtectedRoute from "../services/ProtectedRouter"; // Importar o componente ProtectedRoute
 
 const router = createBrowserRouter([
     {
@@ -14,28 +15,28 @@ const router = createBrowserRouter([
     },
     {
         path: "/",
-        element: <Content />
+        element: <ProtectedRoute element={<Content />} />
     },
     {
         path: "/content/:id",
-        element: <ContentDetails />
+        element: <ProtectedRoute element={<ContentDetails />} />
     },
     {
         path: "/websites",
-        element: <WebSites />
+        element: <ProtectedRoute element={<WebSites />} />
     },
     {
         path: "/screens",
-        element: <Screens />
+        element: <ProtectedRoute element={<Screens />} />
     },
     {
         path: "/screens/:id",
-        element: <ScreenCreator />
+        element: <ProtectedRoute element={<ScreenCreator />} />
     },
     {
         path: "/player/:id",
         element: <Player />
     }
-])
+]);
 
-export { router }
+export { router };

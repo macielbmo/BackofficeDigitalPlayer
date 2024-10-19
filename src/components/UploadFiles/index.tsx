@@ -261,7 +261,7 @@ const ModalContent = styled('div')(
 const TriggerButton = styled('button')(
     ({ theme }) => css`
     font-family: 'IBM Plex Sans', sans-serif;
-    font-weight: 600;
+    font-weight: 400;
     font-size: 0.875rem;
     line-height: 1.5;
     padding: 8px 16px;

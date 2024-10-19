@@ -27,7 +27,7 @@ export default function CardWebsiteCont({ media, onUpdateContent }: CardProps) {
     const htmlContent = media.html || '';
 
     return (
-        <Card sx={{ maxWidth: 300, width: "100%" }}>
+        <Card sx={{ maxWidth: 300, width: "100%", background: '#EDF3F4', border: '3px solid #fff' }}>
             <CardActionArea>
                 <Box sx={{ maxHeight: '170px', overflow: 'hidden' }}>
                     {media.url !== null ? (

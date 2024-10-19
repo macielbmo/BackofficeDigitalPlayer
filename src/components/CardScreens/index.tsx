@@ -29,9 +29,9 @@ export default function CardScreens({ id, name, onUpdateContent }: CardProps) {
     }
 
     return (
-        <Card sx={{ maxWidth: 300, width: "100%" }}>
+        <Card sx={{ maxWidth: 300, width: "100%", background: '#EDF3F4', border: '3px solid #fff' }}>
             <CardActionArea>
-                <Box sx={{ maxHeight: '170px', overflow: 'hidden', border: '1px solid #dddddd' }}>
+                <Box sx={{ maxHeight: '170px', overflow: 'hidden' }}>
                     <Link to={`/screens/${id}`}>
                         <Box
                             component="img"

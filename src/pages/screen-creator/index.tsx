@@ -54,7 +54,7 @@ export function ScreenCreator() {
         <CreatorContext.Provider value={{ sizePlaylist, setSizePlaylist, dataContentScreen, setDataContentScreen }}>
             <Header />
 
-            <Box sx={{ padding: '25px', backgroundColor: '#f8f8f8', height: '100vh' }}>
+            <Box sx={{ padding: '25px', backgroundColor: '#EDF3F4', height: '100vh' }}>
                 <Box
                     sx={{
                         display: 'flex',

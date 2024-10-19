@@ -1,17 +1,27 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
-import { auth } from '../../../services/firebase.config'
+import { login } from "../../../services/auth.service";
+import { useNavigate } from "react-router-dom";
+import logoName from '../../assets/img/logo.png';
 
 export function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
-    const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
-
-    const handleLogin = (e: any) => {
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        signInWithEmailAndPassword(email, password)
+        setLoading(true); // Indica que a requisição está em andamento
+
+        const success = await login(email, password);
+
+        setLoading(false); // Reseta o estado de loading
+        if (success) {
+            navigate('/');
+        } else {
+            alert("E-mail ou senha inválidos");
+        }
     }
 
     return (
@@ -21,6 +31,7 @@ export function Login() {
                 width: '100%',
                 maxHeight: '100vh',
                 overflow: 'hidden',
+                backgroundColor: '#EDF3F4',
             }}
         >
             <Box
@@ -30,7 +41,7 @@ export function Login() {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    justifyContent: 'center',
+                    marginTop: '120px'
                 }}
             >
                 <Box
@@ -41,22 +52,25 @@ export function Login() {
                     }}
                 >
                     <Typography
-                        fontWeight='bold'
-                        fontSize='32px'
-                        color="primary"
+                        fontWeight='regular'
+                        fontFamily='Ubuntu'
+                        fontSize='42px'
+                        color="#000"
                         sx={{
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
+                            letterSpacing: '-1.9px',
                         }}
                     >
-                        {/* <Box
+                        <Box
                             component='img'
-                            src={logo}
-                            alt="Logo"
-                            width="75px"
-                            height="75px"
-                        /> */}
+                            src={logoName}
+                            sx={{
+                                width: '75px',
+                                marginRight: '8px', // Ajusta o espaço entre a imagem e o texto
+                            }}
+                        />
                         DigitalPlayer
                     </Typography>
 
@@ -70,6 +84,8 @@ export function Login() {
                 </Box>
 
                 <Box
+                    component='form'
+                    onSubmit={handleLogin}
                     sx={{
                         width: '25%',
                         marginTop: '35px',
@@ -84,9 +100,11 @@ export function Login() {
                         variant="outlined"
                         label="E-mail"
                         type="email"
-                        placeholder="Enter your email"
+                        placeholder="Digite seu e-mail"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        required // Adiciona validação para o campo
+                        autoComplete="email" // Adiciona atributo autocomplete
                     />
 
                     <TextField
@@ -98,22 +116,30 @@ export function Login() {
                         placeholder="Digite sua senha"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        required // Adiciona validação para o campo
+                        autoComplete="current-password" // Adiciona atributo autocomplete
                     />
+                    <Button
+                        fullWidth
+                        type="submit"
+                        sx={{
+                            marginTop: '25px',
+                            backgroundColor: '#212121',
+                            color: '#FFFFFF',
+                            fontWeight: 'bold',
+                            textTransform: 'none',
+                            "&:hover": {
+                                border: '2px solid #fff'
+                            }
+                        }}
+                        variant="contained"
+                        size="small"
+                        disabled={loading} // Desabilita o botão durante o loading
+                    >
+                        {loading ? "Entrando..." : "Entrar"}
+                    </Button>
                 </Box>
-
-                <Button
-                    sx={{
-                        marginTop: '25px',
-                        width: '25%',
-                    }}
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={handleLogin}
-                >
-                    Entrar
-                </Button>
             </Box>
         </Box>
-    )
+    );
 }

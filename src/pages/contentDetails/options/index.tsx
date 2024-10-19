@@ -34,7 +34,7 @@ export default function OptionsMidia(props: PropsType) {
                 onClick={handleClick}
                 size='small'
                 sx={{
-
+                    color: '#3b3b3b'
                 }}
             >
                 Opções

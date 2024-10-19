@@ -72,7 +72,7 @@ export default function CardCont({ media, onUpdateContent }: CardProps) {
     }
 
     return (
-        <Card sx={{ maxWidth: 300, width: "100%" }}>
+        <Card sx={{ maxWidth: 300, width: "100%", background: '#F3F6F8', border: '3px solid #fff' }}>
             <CardActionArea>
                 <Link to={`/content/${media.id}`}>
                     {media.type === 'video/mp4' ? (

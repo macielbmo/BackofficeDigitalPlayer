@@ -109,7 +109,7 @@ export function ContentDetails() {
         <>
             <Header />
             <Box
-                sx={{ padding: '25px', backgroundColor: '#f8f8f8', height: '100vh' }}
+                sx={{ padding: '25px', backgroundColor: '#EDF3F4', height: '100vh' }}
             >
                 <Box
                     sx={{
@@ -144,11 +144,11 @@ export function ContentDetails() {
                         <Box
                             sx={{
                                 position: 'relative',
-                                width: '100%', // Largura total do container pai
-                                paddingTop: '56.25%', // Proporção 16:9 (9 / 16 * 100 = 56.25%)
-                                backgroundColor: '#e0e0e0',
+                                width: '100%',
+                                paddingTop: '56.25%',
                                 marginTop: '15px',
                                 overflow: 'hidden',
+                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)'
                             }}
                         >
                             <Box
@@ -159,7 +159,9 @@ export function ContentDetails() {
                                     width: '100%',
                                     height: '100%',
                                     padding: '20px',
-                                    backgroundColor: '#e0e0e0',
+                                    backgroundColor: '#EDF3F4',
+                                    border: '3px solid #fff',
+                                    borderRadius: '5px',
                                 }}
                             >
                                 {renderContent()}
